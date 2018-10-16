@@ -1,14 +1,14 @@
-import { app, Menu } from "electron";
-import createWindow from "./createWindow";
+import { app, Menu, BrowserWindow } from "electron";
 
-function setAppMenu() {
+function setAppMenu(options) {
     const template = [
         {
             label: "File",
             submenu: [
-                { label: "New Window", accelerator: "CmdOrCtrl+N", click: createWindow },
-                { type: "separator" },
-                { label: "Close", accelerator: "CmdOrCtrl+W", role: "close" }
+                { label: "Open", accelerator: "CmdOrCtrl+O", click: () => options.openFile() },
+                { label: "Save", accelerator: "CmdOrCtrl+S", click: () => options.saveFile() },
+                { label: "Save As...", accelerator: "CmdOrCtrl+O", click: () => options.saveAsNewFile() },
+                { label: "Export PDF", accelerator: "CmdOrCtrl+O", click: () => options.exportPDF() },
             ]
         },
         {
@@ -23,15 +23,12 @@ function setAppMenu() {
         {
             label: "View",
             submenu: [
-                { label: "Reload", accelerator: "CmdOrCtrl+R", click: (item, focusedWindow) => focusedWindow && focusedWindow.reload() },
-                { label: "Toggle DevTools", accelerator: process.platform === "darwin" ? "Alt+Command+I":"Ctrl+Shift+I", click: (item, focusedWindow) => focusedWindow && focusedWindow.toggleDevTools() }
+                { label: "Toggle DevTools", accelerator: process.platform === "darwin" ? "Alt+Command+I":"Ctrl+Shift+I", click: () => BrowserWindow.focusedWindow.toggleDevTools() }
             ]
         }
     ];
-
-    const appMenu = Menu.buildFromTemplate(template);
-
-    Menu.setApplicationMenu(appMenu);
+    
+    Menu.setApplicationMenu(Menu.buildFromTemplate(template));
 }
 
 export default setAppMenu;
