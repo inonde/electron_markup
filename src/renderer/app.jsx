@@ -1,5 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
+import MarkdownEditorUI from "./components/MarkdownEditorUI";
+
 // import { Router, Route, hashHistory } from "react-router";
 
 // const appRouting = (
@@ -18,4 +20,4 @@ import { render } from "react-dom";
 //     location.hash = "#/login";
 // }
 
-render(<div>Hello Markdown Editor</div>, document.getElementById("app"));
+render(<MarkdownEditorUI/>, document.getElementById("app"));
