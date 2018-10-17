@@ -1,8 +1,11 @@
 import { app } from "electron";
 import createMainWindow from "./createMainWindow"
 import setAppMenu from "./setAppMenu"
+import createFileManager from "./createFileManager"
+import showSaveAsNewFile from "./showSaveAsNewFile";
 
 let mainWindow = null;
+let fileManager = null;
 
 function openFile() {
     console.log("openFile");
@@ -13,7 +16,11 @@ function saveFile() {
 }
 
 function saveAsNewFile() {
-    console.log("saveAsNewFile");
+    Promise.all([ showSaveAsNewFile(), mainWindow.requestText()])
+        .then(([filePath, text]) => fileManager.saveFile(filePath, text))
+        .catch((error) => {
+            console.log(error);
+        })
 }
 
 function exportPDF() {
@@ -21,8 +28,9 @@ function exportPDF() {
 }
 
 app.on("ready", () => {
-    setAppMenu({openFile, saveFile, saveAsNewFile, exportPDF});
     mainWindow = createMainWindow();
+    fileManager = createFileManager();
+    setAppMenu({openFile, saveFile, saveAsNewFile, exportPDF});
 })
 
 

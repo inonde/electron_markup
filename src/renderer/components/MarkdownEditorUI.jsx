@@ -1,4 +1,5 @@
 import React from "react";
+import { ipcRenderer } from "electron";
 import Editor from "./Editor"
 import style from "./MarkdownEditorUI.css"
 import Previewer from "./Previewer";
@@ -8,6 +9,16 @@ export default class MarkdownEditorUI extends React.Component {
         super(props);
         this.state = { text: "" };
         this.onChangeText = this.onChangeText.bind(this);
+    }
+
+    componentDidMount() {
+        ipcRenderer.on("REQUEST_TEXT", () => {
+            ipcRenderer.send("RESPONSE_TEXT", this.state.text);
+        })
+    }
+
+    componentWillUnmount() {
+        ipcRenderer.removeAllListeners();
     }
 
     onChangeText(e) {
