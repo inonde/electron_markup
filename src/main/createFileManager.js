@@ -1,4 +1,5 @@
 import fs from "fs";
+import { shell } from "electron";
 
 class FileManager {
     constructor() {
@@ -28,7 +29,14 @@ class FileManager {
     writePDF(filePath, pdf) {
         return new Promise(resolve => {
             fs.writeFileSync(filePath, pdf);
-            resolve()
+            resolve();
+        })
+    }
+
+    openPDFFile(filePath) {
+        return new Promise(resolve => {
+            shell.openItem(filePath);
+            resolve();
         })
     }
 }

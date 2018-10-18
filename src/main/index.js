@@ -47,6 +47,7 @@ function exportPDF() {
             pdfWindow.on("RENDERED_CONTENTS", () => {
                 pdfWindow.generatePDF()
                     .then((pdf) => fileManager.writePDF(filePath, pdf))
+                    .then(() => fileManager.openPDFFile(filePath))
                     .then(() => pdfWindow.close())
                     .catch(error => {
                         console.log(error);
