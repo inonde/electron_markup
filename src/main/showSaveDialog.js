@@ -1,6 +1,6 @@
 import { dialog } from "electron";
 
-export default function showSaveAsNewFile() {
+export default function showSaveDialog() {
     return new Promise((resolve, reject) => {
         const file = dialog.showSaveDialog(
             {

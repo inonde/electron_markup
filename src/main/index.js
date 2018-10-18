@@ -2,7 +2,7 @@ import { app } from "electron";
 import createMainWindow from "./createMainWindow"
 import setAppMenu from "./setAppMenu"
 import createFileManager from "./createFileManager"
-import showSaveAsNewFile from "./showSaveAsNewFile";
+import showSaveDialog from "./showSaveDialog";
 
 let mainWindow = null;
 let fileManager = null;
@@ -16,7 +16,7 @@ function saveFile() {
 }
 
 function saveAsNewFile() {
-    Promise.all([ showSaveAsNewFile(), mainWindow.requestText()])
+    Promise.all([ showSaveDialog(), mainWindow.requestText()])
         .then(([filePath, text]) => fileManager.saveFile(filePath, text))
         .catch((error) => {
             console.log(error);
