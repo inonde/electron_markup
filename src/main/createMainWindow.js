@@ -15,6 +15,14 @@ class MainWindow {
             ipcMain.once("RESPONSE_TEXT", (_e, text) => resolve(text));
         })
     }
+
+    sendText(text) {
+        return new Promise(resolve => {
+            this.window.webContents.send("SEND_TEXT", text);
+            resolve();
+        })
+        
+    }
 }
 export default function createMainWindow() {
     return new MainWindow();

@@ -3,16 +3,30 @@ import createMainWindow from "./createMainWindow"
 import setAppMenu from "./setAppMenu"
 import createFileManager from "./createFileManager"
 import showSaveDialog from "./showSaveDialog";
+import showOpenDialog from "./showOpenDialog";
 
 let mainWindow = null;
 let fileManager = null;
 
 function openFile() {
-    console.log("openFile");
+    showOpenDialog()
+        .then((filePath) => fileManager.loadFile(filePath))
+        .then((text) => mainWindow.sendText(text))
+        .catch(error => {
+            console.log(error);
+        });
 } 
 
 function saveFile() {
-    console.log("saveFile");
+    if (!fileManager.filePath) {
+        saveAsNewFile();
+    } else {
+        mainWindow.requestText()
+            .then(text => fileManager.overwriteFile(text))
+            .catch(error => {
+                console.log(error);
+            });
+    }
 }
 
 function saveAsNewFile() {
